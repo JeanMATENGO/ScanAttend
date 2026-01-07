@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScanAttend</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+    <div class="carte">
+        <div id="principal">
+            <div style="font-size: 50px;">📸</div>
+            <h1>ScanAttend</h1>
+            <p>Système de présence intelligent</p>
+            <button class="btn btn-prof" onclick="AfficherEcran('fenetre-Connexion')">🧑‍🏫 Espace Professeur</button>
+            <button class="btn btn-etud" onclick="AfficherEcran('ecran-scan-etudiant')">🎓 Espace Étudiant</button>
+        </div>
+
+        <div id="fenetre-Connexion" class="hidden">
+            <h1>Connexion</h1>
+            <input type="password" id="code-prof" placeholder="Entrez le code secret">
+            <div id="message-erreur" class="msg-box"></div>
+            <button class="btn btn-prof" onclick="verifierConnexion()">Valider la clé</button>
+            <button class="btn btn-retour" onclick="AfficherEcran('principal')">Retour</button>
+        </div>
+
+        <div id="menu-prof" class="hidden">
+            <h1>Menu Professeur</h1>
+            <button class="btn btn-prof" onclick="AfficherEcran('ajouter-session')">➕ Ajouter une séance</button>
+            <button class="btn btn-prof" onclick="VoirHistorique()">📂 Voir les présences</button>
+            <button class="btn btn-retour" onclick="AfficherEcran('principal')">Quitter</button>
+        </div>
+
+        <div id="ajouter-session" class="hidden">
+            <h1>Nouvelle Séance</h1>
+            <input type="text" id="input-fac" placeholder="Faculté et Promotion">
+            <input type="text" id="input-cours" placeholder="Nom du cours">
+            <div id="msg-session" class="msg-box"></div>
+            <button class="btn btn-succes" onclick="CreerSession()">Générer le QR Code</button>
+            <div id="resultat-qr" class="zone-qr"></div>
+            <p id="info-qr" class="hidden">Capturez ce QR pour le partager</p>
+            <button class="btn btn-retour" onclick="AfficherEcran('menu-prof')">Terminer</button>
+        </div>
+
+        <div id="afficher-historique" class="hidden">
+            <h1>Historique Journée</h1>
+            <div id="msg-historique" class="msg-box"></div>
+            <div id="contenu-historique"></div> <button class="btn btn-retour" onclick="AfficherEcran('menu-prof')">Retour</button>
+        </div>
+
+        <div id="ecran-scan-etudiant" class="hidden">
+            <h1>Signaler Présence</h1>
+            <div id="lire" class="hidden"></div>
+            <div id="msg-scan" class="msg-box"></div>
+            <div class="options-scan" id="btns-scan">
+                <button class="btn btn-prof" onclick="UtiliserCamera()">📷 Scanner avec Caméra</button>
+                <div style="margin-top:10px;">
+                    <label style="font-size: 0.8rem; font-weight: bold;">Ou choisir une image :</label>
+                    <input type="file" id="fichier-qr" accept="image/*">
+                </div>
+            </div>
+            <button class="btn btn-retour" onclick="AnnulerEtRetourner()">Annuler</button>
+        </div>
+
+        <div id="afficher-formulaire-etudiant" class="hidden">
+            <h1>Identification</h1>
+            <p id="session-actuelle" style="font-weight: bold; color: var(--primary);"></p>
+            <input type="text" id="nom-etud" placeholder="Nom Complet">
+            <input type="text" id="mat-etud" placeholder="Numéro Matricule">
+            <div id="msg-etudiant" class="msg-box"></div>
+            <button class="btn btn-succes" onclick="SoumettrePresence()">Enregistrer</button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

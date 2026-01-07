@@ -1,0 +1,104 @@
+:root {
+    --primary: #4f46e5;
+    --secondary: darkcyan;
+    --success: #10b981;
+    --error: crimson;
+    --dark: darkslategray;
+    --white: white;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.carte {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.msg-box {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 10px 0;
+    min-height: 1.2rem;
+}
+
+.text-success { color: var(--success); }
+.text-error { color: var(--error); }
+
+h1 { color: var(--dark); margin-bottom: 15px; }
+
+.btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+.btn-prof { background: var(--primary); color: white; }
+.btn-succes { background: var(--success); color: white; }
+.btn-etud { background: var(--success); color: white; margin-top: 20px; }
+.btn-retour { background: #9ca3af; color: white; }
+.btn-download { background: orange; color: white; padding: 8px; font-size: 0.8rem; margin-top: 5px; border-radius: 5px; }
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    outline: none;
+}
+
+.hidden { display: none; }
+
+.zone-qr {
+    background: white;
+    padding: 10px;
+    display: inline-block;
+    margin: 15px 0;
+}
+
+table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+th, td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.session-item {
+    background: whitesmoke;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border-left: 5px solid var(--primary);
+    text-align: left;
+}
