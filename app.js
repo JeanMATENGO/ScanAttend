@@ -1,3 +1,4 @@
+
 let html5QrCode = null;
 const codeAcces = "PROFUCB2026";
 
@@ -11,7 +12,7 @@ function nettoyageQuotidien() {
         const conteneur = document.getElementById('contenu-historique');
         if(conteneur) conteneur.innerHTML = "<p>Nouvelle journée, aucune donnée.</p>";
     }
-}
+}   
 
 nettoyageQuotidien();
 
@@ -172,3 +173,178 @@ function exportCSV(sid, courseName) {
     link.click();
     document.body.removeChild(link);
 }
+
+function toggleMenu() {
+    document.getElementById('barnav').classList.toggle('active');
+}
+function RetourAccueil() {
+
+    // cacher toutes les sections
+    document.querySelectorAll('.onglet-content')
+        .forEach(section => section.classList.add('hidden'));
+
+    // afficher accueil
+    document.getElementById('section-accueil')
+        .classList.remove('hidden');
+
+    // réinitialiser les écrans internes de l'accueil
+    document.querySelectorAll('#section-accueil .carte > div')
+        .forEach(div => div.classList.add('hidden'));
+
+    document.getElementById('principal')
+        .classList.remove('hidden');
+
+    // activer le lien Accueil
+    document.querySelectorAll('.barnav a')
+        .forEach(a => a.classList.remove('active'));
+
+    document.querySelector('.barnav a')
+        .classList.add('active');
+
+    // fermer le menu mobile
+    document.getElementById('barnav').classList.remove('active');
+}
+
+function Naviguer(idOnglet, lienClique) {
+
+    /*  Cacher toutes les sections */
+    document.querySelectorAll('.onglet-content')
+        .forEach(section => section.classList.add('hidden'));
+
+    /*  Afficher la bonne section */
+    document.getElementById('section-' + idOnglet)
+        .classList.remove('hidden');
+
+    /*  RESET UNIQUEMENT POUR LES ÉCRANS INTERNES CONNUS */
+
+    // Accueil
+    if (idOnglet === 'accueil') {
+        document.querySelectorAll(
+            '#section-accueil .carte > div'
+        ).forEach(div => div.classList.add('hidden'));
+
+        document.getElementById('principal')
+            .classList.remove('hidden');
+    }
+
+    // Tableau de bord
+    if (idOnglet === 'tableau-de-bord') {
+        document.getElementById('auth-tableau')
+            .classList.remove('hidden');
+
+        document.getElementById('stats-tableau')
+            .classList.add('hidden');
+
+        document.getElementById('code-tableau').value = "";
+        document.getElementById('msg-tableau').innerText = "";
+    }
+
+    /*  Gestion du lien actif */
+    document.querySelectorAll('.barnav a')
+        .forEach(a => a.classList.remove('active'));
+
+    if (lienClique) lienClique.classList.add('active');
+
+    /* Fermer le menu mobile */
+    document.getElementById('barnav').classList.remove('active');
+
+    //  Réinitialisation FORCÉE Assistant IA
+if (idOnglet === 'assistant-ia') {
+    document.querySelectorAll('#section-assistant-ia .hidden')
+        .forEach(el => el.classList.remove('hidden'));
+}
+
+// Réinitialisation FORCÉE À propos
+if (idOnglet === 'a-propos') {
+    document.querySelectorAll('#section-a-propos .hidden')
+        .forEach(el => el.classList.remove('hidden'));
+}
+
+}
+
+/* TABLEAU DE BORD */
+function AccesTableauBord() {
+    const input = document.getElementById('code-tableau');
+    const msg = document.getElementById('msg-tableau');
+
+    if (input.value !== codeAcces) {
+        msg.innerText = "Code incorrect";
+        msg.className = "msg-box text-error";
+        return;
+    }
+
+    msg.innerText = "Accès autorisé";
+    msg.className = "msg-box text-success";
+
+    document.getElementById('auth-tableau').classList.add('hidden');
+    document.getElementById('stats-tableau').classList.remove('hidden');
+
+    AfficherStats();
+}
+
+/*  STATS RÉELLES */
+function AfficherStats() {
+    nettoyageQuotidien();
+
+    const sessions = JSON.parse(localStorage.getItem('sessions') || '[]');
+    const attendances = JSON.parse(localStorage.getItem('attendances') || '[]');
+
+    const conteneur = document.getElementById('liste-stats');
+
+    if (sessions.length === 0) {
+        conteneur.innerHTML = "<p>Aucune donnée pour aujourd'hui.</p>";
+        return;
+    }
+
+    conteneur.innerHTML = "";
+
+    sessions.forEach(s => {
+        const nb = attendances.filter(a => a.sessionId === s.id).length;
+
+        conteneur.innerHTML += `
+            <div class="session-item-stats">
+                <span><strong>${s.cours}</strong> (${s.fac})</span>
+                <span class="text-success"><strong>${nb} présents</strong></span>
+            </div>
+        `;
+    });
+}
+// --- LOGIQUE ASSISTANT IA (SQUELETTE) ---
+function EnvoyerMessage() {
+    const input = document.getElementById('user-input');
+    const chatBox = document.getElementById('chat-box');    
+    if(!input.value.trim()) return;
+
+    // Message utilisateur
+    chatBox.innerHTML += `<div class="user-msg">${input.value}</div>`;
+    
+    // Simulation réponse bot (En attendant ton API Gemini)
+    const question = input.value.toLowerCase();
+    let reponse = "Désolé, je ne connais que l'application ScanAttend. Posez-moi une question sur le scan ou les présences.";
+    
+    if(question.includes("comment ça marche")) reponse = "Le prof génère un QR code et l'étudiant le scanne pour marquer sa présence.";
+    if(question.includes("perdu mes données")) reponse = "Les données sont effacées automatiquement chaque jour à minuit pour plus de sécurité.";
+
+    setTimeout(() => {
+        chatBox.innerHTML += `<div class="bot-msg">${reponse}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 1000);
+
+    input.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

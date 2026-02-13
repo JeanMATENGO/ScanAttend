@@ -1,104 +1,240 @@
-:root {
-    --primary: #4f46e5;
-    --secondary: darkcyan;
-    --success: #10b981;
-    --error: crimson;
-    --dark: darkslategray;
-    --white: white;
-}
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
+    :root {
+        --primary: #4f46e5;
+        --secondary: darkcyan;
+        --success: #10b981;
+        --error: crimson;
+        --dark: darkslategray;
+        --white: white;
+    }
 
-body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-.carte {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-}
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        padding-top: 90px;
+    }
 
-.msg-box {
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin: 10px 0;
-    min-height: 1.2rem;
-}
+    /* HEADER ET NAVIGATION */
+    .header {
+        position: fixed;
+        top: 0; left: 0; width: 100%;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.95);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 5%;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
 
-.text-success { color: var(--success); }
-.text-error { color: var(--error); }
+    .haut-titre {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        text-decoration: none;
+    }
 
-h1 { color: var(--dark); margin-bottom: 15px; }
+    .barnav a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 600;
+        margin-left: 25px;
+        transition: 0.3s;
+        font-size: 1rem;
+    }
 
-.btn {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-top: 10px;
-    font-size: 1rem;
-}
+    .barnav a:hover, .barnav a.active {
+        color: var(--primary);
+    }
 
-.btn-prof { background: var(--primary); color: white; }
-.btn-succes { background: var(--success); color: white; }
-.btn-etud { background: var(--success); color: white; margin-top: 20px; }
-.btn-retour { background: #9ca3af; color: white; }
-.btn-download { background: orange; color: white; padding: 8px; font-size: 0.8rem; margin-top: 5px; border-radius: 5px; }
+    .menu-icon {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--primary);
+    }
+    .close-icon {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--primary);
+    }
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 2px solid lightgray;
-    border-radius: 10px;
-    outline: none;
-}
+    /* CONTENEUR ET CARTES */
+    .conteneur-principal {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;    
+    }
 
-.hidden { display: none; }
+    .carte {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 800px; /* Élargi pour une meilleure visibilité */
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        animation: apparition 0.5s ease-out;
+    }
 
-.zone-qr {
-    background: white;
-    padding: 10px;
-    display: inline-block;
-    margin: 15px 0;
-}
+    @keyframes apparition {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .onglet-content {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 
-table {
-    width: 100%;
-    margin-top: 15px;
-    border-collapse: collapse;
-    font-size: 0.8rem;
-}
+    .msg-box {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin: 10px 0;
+        min-height: 1.2rem;
+    }
+    .text-success { color: var(--success); }
+    .text-error { color: var(--error); }
 
-th, td {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-}
+    h1 { color: var(--dark); margin-bottom: 15px; }
+    /* BOUTONS ET INPUTS */
+    .btn {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 15px;
+        font-size: 1.1rem;
+    }
 
-.session-item {
-    background: whitesmoke;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    border-left: 5px solid var(--primary);
-    text-align: left;
-}
+    .btn-prof { background: var(--primary); color: white; }
+    .btn-succes { background: var(--success); color: white; }
+    .btn-etud { background: var(--success); color: white; margin-top: 20px; }
+    .btn-retour { background: #9ca3af; color: white; }
+    .btn-download { background: orange; color: white; padding: 8px; font-size: 0.8rem; margin-top: 5px; border-radius: 5px; }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: 2px solid lightgray;
+        border-radius: 10px;
+        outline: none;
+    }
+
+    .hidden { display: none; }
+
+    .zone-qr {
+        background: white;
+        padding: 10px;
+        display: inline-block;
+        margin: 15px 0;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 15px;
+        border-collapse: collapse;
+        font-size: 0.8rem;
+    }
+
+    th, td {
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+    }
+
+    .session-item {
+        background: whitesmoke;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border-left: 5px solid var(--primary);
+        text-align: left;
+    }
+
+    /* TABLEAU DE BORD */
+    .session-item-stats {
+        background: #f9fafb;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border-left: 5px solid var(--success);
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* CHATBOT */
+    .chat-box {
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #eee;
+        padding: 15px;
+        text-align: left;
+        margin-bottom: 15px;
+        border-radius: 10px;
+    }
+
+    .bot-msg, .user-msg {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 80%;
+    }
+
+    .bot-msg { background: #f3f4f6; color: var(--dark); }
+    .user-msg { background: var(--primary); color: white; align-self: flex-end; margin-left: auto; }
+
+    .chat-input-area { display: flex; gap: 10px; }
+    .btn-send { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
+
+    /* À PROPOS */
+    .logo-apropos { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid var(--primary); }
+    .texte-apropos { text-align: left; line-height: 1.6; }
+
+    /* RESPONSIVITÉ (Un seul media query comme demandé) */
+    @media screen and (max-width: 768px) {
+        .menu-icon { display: block; }
+        
+        .barnav {
+            position: fixed;
+            right: -100%;
+            top: 0;
+            width: 70%;
+            height: 100vh;
+            background: white;
+            flex-direction: column;
+            padding: 80px 30px;
+            transition: 0.4s;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            display: flex;
+        }
+
+        .barnav.active { right: 0; }
+        .barnav a { margin: 15px 0; font-size: 1.2rem; }
+        .close-icon { display: block; position: absolute; top: 20px; right: 20px; }
+        body {
+            padding-top: 80px;
+        }
+        .carte { padding: 25px; }
+    }
+
+
