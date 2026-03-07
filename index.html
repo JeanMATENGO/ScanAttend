@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,19 +10,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
+
 <body>
 
     <header class="header">
-        <a href="#" class="haut-titre">ScanAttend</a>   
-        
+        <a href="#" class="haut-titre">ScanAttend</a>
+
         <nav class="barnav" id="barnav">
             <div class="close-icon">
-            <i class="fa-solid fa-xmark" onclick="toggleMenu()"></i>
+                <i class="fa-solid fa-xmark" onclick="toggleMenu()"></i>
             </div>
-            <a href="#" onclick="Naviguer('accueil', this)">Accueil</a>
-<a href="#" onclick="Naviguer('tableau-de-bord', this)">Tableau de bord</a>
-<a href="#" onclick="Naviguer('assistant-ia', this)">Assistant IA </a>
-<a href="#" onclick="Naviguer('a-propos', this)">À Propos</a>
+            <a href="#" onclick="Naviguer('accueil', this)">🏠 Accueil</a>
+            <a href="#" onclick="Naviguer('tableau-de-bord', this)">📊 Tableau de bord</a>
+            <a href="#" onclick="Naviguer('assistant-ia', this)">🤖 Assistant IA </a>
+            <a href="#" onclick="Naviguer('a-propos', this)">ℹ️ À Propos</a>
 
         </nav>
 
@@ -33,75 +35,79 @@
     <main class="conteneur-principal">
         <section id="section-accueil" class="onglet-content">
             <div class="carte">
-        <div id="principal">
-            <div style="font-size: 50px;">📸</div>
-            <h1>ScanAttend</h1>
-            <p>Système de présence intelligent</p>
-            <button class="btn btn-prof" onclick="AfficherEcran('fenetre-Connexion')">🧑🏫 Espace Professeur</button>
-            <button class="btn btn-etud" onclick="AfficherEcran('ecran-scan-etudiant')">🎓 Espace Étudiant</button>
-        </div>
+                <div id="principal">
+                    <div style="font-size: 50px;">📸</div>
+                    <h1>ScanAttend</h1>
+                    <p>Système de présence intelligent</p>
+                    <button class="btn btn-prof" onclick="AfficherEcran('fenetre-Connexion')">🧑🏫 Espace
+                        Professeur</button>
+                    <button class="btn btn-etud" onclick="AfficherEcran('ecran-scan-etudiant')">🎓 Espace
+                        Étudiant</button>
+                </div>
 
-        <div id="fenetre-Connexion" class="hidden">
-            <h1>Connexion</h1>
-            <input type="password" id="code-prof" placeholder="Entrez le code secret">
-            <div id="message-erreur" class="msg-box"></div>
-            <button class="btn btn-prof" onclick="verifierConnexion()">Valider la clé</button>
-            <button class="btn btn-retour" onclick="AfficherEcran('principal')">Retour</button>
-        </div>
+                <div id="fenetre-Connexion" class="hidden">
+                    <h1>Connexion</h1>
+                    <input type="password" id="code-prof" placeholder="Entrez le code secret">
+                    <div id="message-erreur" class="msg-box"></div>
+                    <button class="btn btn-prof" onclick="verifierConnexion()">Valider la clé</button>
+                    <button class="btn btn-retour" onclick="AfficherEcran('principal')">Retour</button>
+                </div>
 
-        <div id="menu-prof" class="hidden">
-            <h1>Menu Professeur</h1>
-            <button class="btn btn-prof" onclick="AfficherEcran('ajouter-session')">➕ Ajouter une séance</button>
-            <button class="btn btn-prof" onclick="VoirHistorique()">📂 Voir les présences</button>
-            <button class="btn btn-retour" onclick="AfficherEcran('principal')">Quitter</button>
-        </div>
+                <div id="menu-prof" class="hidden">
+                    <h1>Menu Professeur</h1>
+                    <button class="btn btn-prof" onclick="AfficherEcran('ajouter-session')">➕ Ajouter une
+                        séance</button>
+                    <button class="btn btn-prof" onclick="VoirHistorique()">📂 Voir les présences</button>
+                    <button class="btn btn-retour" onclick="AfficherEcran('principal')">Quitter</button>
+                </div>
 
-        <div id="ajouter-session" class="hidden">
-            <h1>Nouvelle Séance</h1>
-            <input type="text" id="input-fac" placeholder="Faculté et Promotion">
-            <input type="text" id="input-cours" placeholder="Nom du cours">
-            <div id="msg-session" class="msg-box"></div>
-            <button class="btn btn-succes" onclick="CreerSession()">Générer le QR Code</button>
-            <div id="resultat-qr" class="zone-qr"></div>
-            <p id="info-qr" class="hidden">Capturez ce QR pour le partager</p>
-            <button class="btn btn-retour" onclick="AfficherEcran('menu-prof')">Terminer</button>
-        </div>
+                <div id="ajouter-session" class="hidden">
+                    <h1>Nouvelle Séance</h1>
+                    <input type="text" id="input-fac" placeholder="Faculté et Promotion">
+                    <input type="text" id="input-cours" placeholder="Nom du cours">
+                    <div id="msg-session" class="msg-box"></div>
+                    <button class="btn btn-succes" onclick="CreerSession()">Générer le QR Code</button>
+                    <div id="resultat-qr" class="zone-qr"></div>
+                    <p id="info-qr" class="hidden">Capturez ce QR pour le partager</p>
+                    <button class="btn btn-retour" onclick="AfficherEcran('menu-prof')">Terminer</button>
+                </div>
 
-        <div id="afficher-historique" class="hidden">
-            <h1>Historique Journée</h1>
-            <div id="msg-historique" class="msg-box"></div>
-            <div id="contenu-historique"></div> <button class="btn btn-retour" onclick="AfficherEcran('menu-prof')">Retour</button>
-        </div>
+                <div id="afficher-historique" class="hidden">
+                    <h1>Historique Journée</h1>
+                    <div id="msg-historique" class="msg-box"></div>
+                    <div id="contenu-historique"></div> <button class="btn btn-retour"
+                        onclick="AfficherEcran('menu-prof')">Retour</button>
+                </div>
 
-        <div id="ecran-scan-etudiant" class="hidden">
-            <h1>Signaler Présence</h1>
-            <div id="lire" class="hidden"></div>
-            <div id="msg-scan" class="msg-box"></div>
-            <div class="options-scan" id="btns-scan">
-                <button class="btn btn-prof" onclick="UtiliserCamera()">📷 Scanner avec Caméra</button>
-                <div style="margin-top:10px;">
-                    <label style="font-size: 0.8rem; font-weight: bold;">Ou choisir une image :</label>
-                    <input type="file" id="fichier-qr" accept="image/*">
+                <div id="ecran-scan-etudiant" class="hidden">
+                    <h1>Signaler Présence</h1>
+                    <div id="lire" class="hidden"></div>
+                    <div id="msg-scan" class="msg-box"></div>
+                    <div class="options-scan" id="btns-scan">
+                        <button class="btn btn-prof" onclick="UtiliserCamera()">📷 Scanner avec Caméra</button>
+                        <div style="margin-top:10px;">
+                            <label style="font-size: 0.8rem; font-weight: bold;">Ou choisir une image :</label>
+                            <input type="file" id="fichier-qr" accept="image/*">
+                        </div>
+                    </div>
+                    <button class="btn btn-retour" onclick="AnnulerEtRetourner()">Annuler</button>
+                </div>
+
+                <div id="afficher-formulaire-etudiant" class="hidden">
+                    <h1>Identification</h1>
+                    <p id="session-actuelle" style="font-weight: bold; color: var(--primary);"></p>
+                    <input type="text" id="nom-etud" placeholder="Nom Complet">
+                    <input type="text" id="mat-etud" placeholder="Numéro Matricule">
+                    <div id="msg-etudiant" class="msg-box"></div>
+                    <button class="btn btn-succes" onclick="SoumettrePresence()">Enregistrer</button>
                 </div>
             </div>
-            <button class="btn btn-retour" onclick="AnnulerEtRetourner()">Annuler</button>
-        </div>
-
-        <div id="afficher-formulaire-etudiant" class="hidden">
-            <h1>Identification</h1>
-            <p id="session-actuelle" style="font-weight: bold; color: var(--primary);"></p>
-            <input type="text" id="nom-etud" placeholder="Nom Complet">
-            <input type="text" id="mat-etud" placeholder="Numéro Matricule">
-            <div id="msg-etudiant" class="msg-box"></div>
-            <button class="btn btn-succes" onclick="SoumettrePresence()">Enregistrer</button>
-        </div>
-    </div>
         </section>
 
         <section id="section-tableau-de-bord" class="onglet-content hidden">
             <div class="carte">
                 <div id="auth-tableau">
-                    <h1>Accès Restreint</h1>    
+                    <h1>Accès Restreint</h1>
                     <input type="password" id="code-tableau" placeholder="Code Secret">
                     <div id="msg-tableau" class="msg-box"></div>
                     <button class="btn btn-prof" onclick="AccesTableauBord()">Accéder</button>
@@ -119,7 +125,8 @@
             <div class="carte chat-container">
                 <h1>Assistant ScanAttend</h1>
                 <div id="chat-box" class="chat-box">
-                    <div class="bot-msg">Bonjour ! Je suis l'assistant ScanAttend. Comment puis-je vous aider aujourd'hui ?</div>
+                    <div class="bot-msg">Bonjour ! Je suis l'assistant ScanAttend. Comment puis-je vous aider
+                        aujourd'hui ?</div>
                 </div>
                 <div class="chat-input-area">
                     <input type="text" id="user-input" placeholder="Posez votre question...">
@@ -133,17 +140,43 @@
                 <img src="logo.png" alt="Logo ScanAttend" class="logo-apropos">
                 <h1>À Propos</h1>
                 <div class="texte-apropos">
-                    <p><strong>ScanAttend</strong> est une solution innovante pour la gestion des présences à l'université. Finis les appels interminables et les fraudes sur les feuilles de papier.</p>
-                    <p>L'application permet aux enseignants de générer un QR Code unique pour chaque séance et aux étudiants de pointer leur présence via leur smartphone.</p>
+                    <p><strong>ScanAttend</strong> est une solution innovante pour la gestion des présences à
+                        l'université. Finis les appels interminables et les fraudes sur les feuilles de papier.</p>
+                    <p>L'application permet aux enseignants de générer un QR Code unique pour chaque séance et aux
+                        étudiants de pointer leur présence via leur smartphone.</p>
                     <hr>
                     <h3>Concepteur & Développeur</h3>
                     <p><strong>Jean Matengo</strong></p>
-                    <p>Étudiant à l'UCB (Université Catholique de Bukavu) et passionné par l'innovation technologique, précisement le devéloppement Web.</p>
+                    <p>Étudiant à l'UCB (Université Catholique de Bukavu) et passionné par l'innovation technologique,
+                        précisement le devéloppement Web.</p>
                 </div>
             </div>
         </section>
     </main>
 
+
+    <!-- Firebase SDK (Version Compat pour JS Classique) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <script>
+        // REMPLACE CE BLOC par ta propre configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQFmNG-JyUHHbjSRfKANI7jdPeaiA3vV4",
+            authDomain: "scanattend2.firebaseapp.com",
+            projectId: "scanattend2",
+            storageBucket: "scanattend2.firebasestorage.app",
+            messagingSenderId: "645431824673",
+            appId: "1:645431824673:web:6c34b3ddc22feb0101ae60"
+        };
+
+        // Initialisation de Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
     <script src="app.js"></script>
+
 </body>
+
 </html>
