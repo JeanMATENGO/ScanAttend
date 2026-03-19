@@ -85,10 +85,7 @@
                     <div id="msg-scan" class="msg-box"></div>
                     <div class="options-scan" id="btns-scan">
                         <button class="btn btn-prof" onclick="UtiliserCamera()">📷 Scanner avec Caméra</button>
-                        <div style="margin-top:10px;">
-                            <label style="font-size: 0.8rem; font-weight: bold;">Ou choisir une image :</label>
-                            <input type="file" id="fichier-qr" accept="image/*">
-                        </div>
+
                     </div>
                     <button class="btn btn-retour" onclick="AnnulerEtRetourner()">Annuler</button>
                 </div>
@@ -160,7 +157,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
     <script>
-        // REMPLACE CE BLOC par ta propre configuration Firebase
+        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDQFmNG-JyUHHbjSRfKANI7jdPeaiA3vV4",
             authDomain: "scanattend2.firebaseapp.com",

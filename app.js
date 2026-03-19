@@ -1,6 +1,7 @@
-
 let html5QrCode = null;
 const codeAcces = "PROFUCB2026";
+
+
 
 function nettoyageQuotidien() {
     const aujourdhui = new Date().toLocaleDateString('fr-FR');
@@ -72,6 +73,11 @@ async function CreerSession() {
 }
 
 function UtiliserCamera() {
+    const localKey = 'last_scan_date';
+    if (localStorage.getItem(localKey) === getAujourdhui()) {
+        return afficherMessage("msg-scan", "Vous avez déjà scanné aujourd'hui. Revenez demain !", "error");
+    }
+
     document.getElementById('lire').classList.remove('hidden');
     document.getElementById('btns-scan').classList.add('hidden');
     html5QrCode = new Html5Qrcode("lire");
@@ -79,14 +85,7 @@ function UtiliserCamera() {
         .catch(() => afficherMessage("msg-scan", "Caméra non disponible", "error"));
 }
 
-document.getElementById('fichier-qr').addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const tempScanner = new Html5Qrcode("lire");
-    tempScanner.scanFile(file, true)
-        .then(scanReussi)
-        .catch(() => afficherMessage("msg-scan", "QR Code non détecté", "error"));
-});
+// Scan par fichier désactivé pour empêcher la fraude
 
 async function scanReussi(decoderTexte) {
     if (html5QrCode) {
@@ -95,10 +94,20 @@ async function scanReussi(decoderTexte) {
     }
 
     try {
+        if (!decoderTexte) return;
+        decoderTexte = String(decoderTexte).trim();
+        
+        if (!decoderTexte.startsWith("SCAN-")) {
+            afficherMessage("msg-scan", "QR Code invalide ou format non reconnu", "error");
+            setTimeout(() => { AnnulerEtRetourner(); }, 2000);
+            return;
+        }
+
         const doc = await db.collection('sessions').doc(decoderTexte).get();
         if (doc.exists) {
             const session = doc.data();
-            localStorage.setItem('temp_sid', decoderTexte); // Still needed for the follow-up form
+
+            localStorage.setItem('temp_sid', decoderTexte);
             document.getElementById('session-actuelle').innerText = `${session.fac} : ${session.cours}`;
             AfficherEcran('afficher-formulaire-etudiant');
         } else {
@@ -106,7 +115,10 @@ async function scanReussi(decoderTexte) {
             setTimeout(() => { AnnulerEtRetourner(); }, 2000);
         }
     } catch (error) {
-        afficherMessage("msg-scan", "Erreur de connexion", "error");
+        console.error("Erreur de scan détaillée:", error);
+        let msg = "Erreur: " + (error.message || "Problème de connexion");
+        afficherMessage("msg-scan", msg, "error");
+        setTimeout(() => { AnnulerEtRetourner(); }, 3000);
     }
 }
 
@@ -116,16 +128,28 @@ async function SoumettrePresence() {
     const sid = localStorage.getItem('temp_sid');
     if (!name || !mat) return afficherMessage("msg-etudiant", "Nom et matricule requis", "error");
 
+    const localKey = 'last_scan_date';
+    const dateJour = getAujourdhui();
+    if (localStorage.getItem(localKey) === dateJour) {
+        return afficherMessage("msg-etudiant", "Vous avez déjà été enregistré pour la journée", "error");
+    }
+
     try {
+        const existCheck = await db.collection('attendances').where('sessionId', '==', sid).where('mat', '==', mat).get();
+        if (!existCheck.empty) {
+            return afficherMessage("msg-etudiant", "Ce matricule a déjà été scanné pour ce cours", "error");
+        }
+
         await db.collection('attendances').add({
             sessionId: sid,
             name: name,
             mat: mat,
-            date: getAujourdhui(),
+            date: dateJour,
             time: new Date().toLocaleTimeString('fr-FR'),
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        afficherMessage("msg-etudiant", "Présence enregistrée !", "success");
+        localStorage.setItem(localKey, dateJour);
+        afficherMessage("msg-etudiant", "Présence enregistrée avec succès !", "success");
         setTimeout(() => { AnnulerEtRetourner(); }, 1500);
     } catch (error) {
         afficherMessage("msg-etudiant", "Erreur d'enregistrement", "error");
@@ -134,7 +158,6 @@ async function SoumettrePresence() {
 
 function AnnulerEtRetourner() {
     if (html5QrCode) { html5QrCode.stop().catch(() => { }); html5QrCode = null; }
-    document.getElementById('fichier-qr').value = "";
     document.getElementById('nom-etud').value = "";
     document.getElementById('mat-etud').value = "";
     document.getElementById('input-fac').value = "";
@@ -324,7 +347,7 @@ function EnvoyerMessage() {
 
     // Simulation réponse bot (En attendant ton API Gemini)
     const question = input.value.toLowerCase();
-    let reponse = "Désolé, je ne connais que l'application ScanAttend. Posez-moi une question sur le scan ou les présences.";
+    let reponse = "Salut ! ça va ?? Je suis désolée car je ne suis pas disponible pour le moment, et aussi je ne répondrai qu'aux questions en rapport avec l'application ScanAttend.";
 
     if (question.includes("comment ça marche")) reponse = "Le prof génère un QR code et l'étudiant le scanne pour marquer sa présence.";
     if (question.includes("perdu mes données")) reponse = "Les données sont effacées automatiquement chaque jour à minuit pour plus de sécurité.";
